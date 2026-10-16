@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "helpers-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-20",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "helpers-users",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "kv_namespaces": [{ "binding": "SESSIONS", "id": "00000000000000000000000000000000" }],
+  "durable_objects": {
+    "bindings": [{ "name": "COUNTER", "class_name": "Counter" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Counter"] }],
+  // This Worker sends to the queue (producer) and also receives from it (consumer).
+  "queues": {
+    "producers": [{ "binding": "JOBS", "queue": "helpers-jobs" }],
+    "consumers": [{ "queue": "helpers-jobs", "max_batch_size": 10, "max_retries": 3 }]
+  }
+}

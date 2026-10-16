@@ -1,0 +1,8 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "helpers-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-20",
+  // Calls the `Api` entrypoint of the helpers-api Worker.
+  "services": [{ "binding": "API", "service": "helpers-api", "entrypoint": "Api" }]
+}
