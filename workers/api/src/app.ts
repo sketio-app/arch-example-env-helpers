@@ -8,7 +8,13 @@ export const app = new Hono<{ Bindings: Env }>()
 app.route("/auth", makeAuthRoutes())
 
 // `c.env` passed to a helper in another file.
-app.get("/users", async (c) => c.json(await listUsers(c.env)))
+app.get("/users", async (c) => {
+  const cached = await c.env.CACHE.get("users", "json")
+  if (cached) return c.json(cached)
+  const users = await listUsers(c.env)
+  await c.env.CACHE.put("users", JSON.stringify(users), { expirationTtl: 60 })
+  return c.json(users)
+})
 
 // The helper passes it on again.
 app.get("/users/:id", async (c) => c.json(await getUserWithVisits(c.env, c.req.param("id"))))

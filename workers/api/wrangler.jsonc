@@ -10,7 +10,10 @@
       "database_id": "00000000-0000-0000-0000-000000000000"
     }
   ],
-  "kv_namespaces": [{ "binding": "SESSIONS", "id": "00000000000000000000000000000000" }],
+  "kv_namespaces": [
+    { "binding": "SESSIONS", "id": "00000000000000000000000000000000" },
+    { "binding": "CACHE", "id": "00000000000000000000000000000000" }
+  ],
   "durable_objects": {
     "bindings": [{ "name": "COUNTER", "class_name": "Counter" }]
   },
